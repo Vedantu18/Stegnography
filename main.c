@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
             return 1;
         }
         
-        printf("Started Encoding Process...\n");
+        printf("Started Encoding Process\n");
         
         if (do_encoding(&encInfo) == e_failure)
         {
