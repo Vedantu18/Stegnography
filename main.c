@@ -3,39 +3,61 @@
 int main(int argc, char *argv[])
 {
     EncodeInfo encInfo;
-    uint img_size;
+    
 
-    // Fill with sample filenames
-    // encInfo.src_image_fname = "beautiful.bmp";
-    // encInfo.secret_fname = "secret.txt";
-    // encInfo.stego_image_fname = "stego_img.bmp";
-
-    // Checking oprtation is going on here
-    if(check_operation_type(argv) == e_encode)
+    OperationType operation = check_operation_type(argv);
+    
+    if (operation == e_encode)
     {
-        read_and_validate_encode_args(argv, &encInfo);
+
+        if (read_and_validate_encode_args(argv, &encInfo) == e_failure)
+        {
+            printf("ERROR: Invalid encode arguments\n");
+            printf("Usage: %s -e <secret.txt> <image.bmp> <output.bmp>\n", argv[0]);
+            return 1;
+        }
+        
+        printf("Started Encoding Process...\n");
+        
+        if (do_encoding(&encInfo) == e_failure)
+        {
+            printf("ERROR: Encoding Failed\n");
+            return 1;
+        }
+        
+        printf("Encoding successful! ✓\n");
     }
-    else if(check_operation_type(argv) == e_decode)
+    else if (operation == e_decode)
     {
-        read_and_validate_encode_args(argv, &encInfo);
+        if (read_and_validate_decode_args(argv, &encInfo) == e_failure)
+        {
+            printf("ERROR: Invalid decode arguments\n");
+            printf("Usage: %s -d <stego_image.bmp> <output.txt>\n", argv[0]);
+            return 1;
+        }
+        
+        printf("Started Decoding Process\n");
+        
+        if (do_decoding(&encInfo) == e_failure)
+        {
+            printf("ERROR: Decoding Failed\n");
+            return 1;
+        }
+        
+        printf("Decoding successful! ✓\n");
+    }
+    else if (operation == e_unsupported)
+    {
+        printf("ERROR: Unsupported operation\n");
+        printf("  Encode: %s -e <secret.txt> <image.bmp> <output.bmp>\n", argv[0]);
+        printf("  Decode: %s -d <stego_image.bmp> <output.txt>\n", argv[0]);
+        return 1;
     }
     else
     {
-        return e_unsupported;
+        printf("ERROR: Invalid arguments\n");
+        return 1;
     }
-    printf("Started Encoding Process\n");
 
-    // // Test get_image_size_for_bmp
-    // img_size = get_image_size_for_bmp(encInfo.fptr_src_image);
-    // printf("INFO: Image size = %u\n", img_size);
-
-    if(do_encoding(&encInfo) == e_failure)
-    {
-        printf("Invalid Encode arguments\n");
-        return e_failure;
-    }
-    printf("Encoding successful\n");
-
-
-    return 0;
+    return 0; 
 }
