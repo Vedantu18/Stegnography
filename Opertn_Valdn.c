@@ -253,17 +253,25 @@ Status encode_secret_file_size(long file_size, EncodeInfo *encInfo)
 
     return e_success;
 }
+/******************************************************************************************************************/
 
+/* Encode secret file extension size */
+Status encode_secret_file_extn_size(EncodeInfo *encInfo)
+{
+    unsigned char buffer[32];
+    unsigned long extn_size = strlen(encInfo->extn_secret_file);
+
+    fread(buffer, 1, 32, encInfo->fptr_src_image);
+    encode_size_to_lsb(extn_size, buffer);
+    fwrite(buffer, 1, 32, encInfo->fptr_stego_image);
+
+    return e_success;
+}
 /******************************************************************************************************************/
 /* Encode secret file data*/
 Status encode_secret_file_data(EncodeInfo *encInfo)
 {
-
 }
-
-
-
-
 
 /******************************************************************************************************************/
 
@@ -312,6 +320,15 @@ Status do_encoding(EncodeInfo *encInfo)
     {
         printf("SUCCESS: %s function completed\n", "Encoding_Magic_String");
     }
+    // function calling for the encode secret file extension size
+    if (encode_secret_file_extn_size(encInfo) == e_failure)
+    {
+        printf("ERROR: %s function failed\n", "encoding secret file extencion size");
+    }
+    else
+    {
+        printf("SUCCESS: %s function completed\n", "encoding secret file extencion size");
+    }
 
     // function calling for the encoding the secret file extension
     if (encode_secret_file_extn(encInfo->extn_secret_file, encInfo) == e_failure)
@@ -333,6 +350,11 @@ Status do_encoding(EncodeInfo *encInfo)
         printf("SUCCESS: %s function completed\n", "Encoding_Secret_File_Size");
     }
 
-    //function calling for the secret file data
-    if(encode_secret_file_data())
+    // function calling for the secret file data
+    if (encode_secret_file_data(encInfo) == e_failure)
+    {
+    }
+    else
+    {
+    }
 }
