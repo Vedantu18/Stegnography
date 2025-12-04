@@ -271,6 +271,7 @@ Status encode_secret_file_extn_size(EncodeInfo *encInfo)
 /* Encode secret file data*/
 Status encode_secret_file_data(EncodeInfo *encInfo)
 {
+    
 }
 
 /******************************************************************************************************************/
