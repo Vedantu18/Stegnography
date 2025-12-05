@@ -271,7 +271,8 @@ Status encode_secret_file_extn_size(EncodeInfo *encInfo)
 /* Encode secret file data*/
 Status encode_secret_file_data(EncodeInfo *encInfo)
 {
-    
+
+
 }
 
 /******************************************************************************************************************/
@@ -354,8 +355,11 @@ Status do_encoding(EncodeInfo *encInfo)
     // function calling for the secret file data
     if (encode_secret_file_data(encInfo) == e_failure)
     {
+        printf("ERROR: %s fucntion failed\n", "encode secret file data");
     }
     else
     {
+        printf("SUCCESS: %s function completed\n", "encode secret file data");
+
     }
 }
