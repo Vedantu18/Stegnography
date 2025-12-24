@@ -8,11 +8,10 @@ int main(int argc, char *argv[])
 
     if (operation == e_encode)
     {
-
         if (read_and_validate_encode_args(argv, &encInfo) == e_failure)
         {
             printf("ERROR: Invalid encode arguments\n");
-            printf("Usage: %s -e <secret.txt> <image.bmp> <output.bmp>\n", argv[0]);
+            printf("Usage: %s -e <image.bmp> <secret.txt> <output.bmp>\n", argv[0]); 
             return 1;
         }
 
@@ -26,29 +25,29 @@ int main(int argc, char *argv[])
 
         printf("Encoding successful! ✓\n");
     }
-    else if (operation == e_decode)
-    {
-        if (read_and_validate_decode_args(argv, &encInfo) == e_failure)
-        {
-            printf("ERROR: Invalid decode arguments\n");
-            printf("Usage: %s -d <stego_image.bmp> <output.txt>\n", argv[0]);
-            return 1;
-        }
+    // else if (operation == e_decode)
+    // {
+    //     if (read_and_validate_decode_args(argv, &encInfo) == e_failure)
+    //     {
+    //         printf("ERROR: Invalid decode arguments\n");
+    //         printf("Usage: %s -d <stego_image.bmp> <output.txt>\n", argv[0]);
+    //         return 1;
+    //     }
 
-        printf("Started Decoding Process\n");
+    //     printf("Started Decoding Process\n");
 
-        if (do_decoding(&encInfo) == e_failure)
-        {
-            printf("ERROR: Decoding Failed\n");
-            return 1;
-        }
+    //     if (do_decoding(&encInfo) == e_failure)
+    //     {
+    //         printf("ERROR: Decoding Failed\n");
+    //         return 1;
+    //     }
 
-        printf("Decoding successful! ✓\n");
-    }
+    //     printf("Decoding successful! ✓\n");
+    // }
     else if (operation == e_unsupported)
     {
         printf("ERROR: Unsupported operation\n");
-        printf("  Encode: %s -e <secret.txt> <image.bmp> <output.bmp>\n", argv[0]);
+        printf("  Encode: %s -e <image.bmp> <secret.txt> <output.bmp>\n", argv[0]);  // FIXED ORDER!
         printf("  Decode: %s -d <stego_image.bmp> <output.txt>\n", argv[0]);
         return 1;
     }
